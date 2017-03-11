@@ -218,4 +218,4 @@ Below, the list of key codes:
 | Compose | "compose" | "@65312" |
 | Alt GR | "alt_graph" | "@65406" |
 
-Note that this is incomplete and that to the key code to be available to your application, make sure you are using the right physical keyboard, keyboard driver and operational system. 
+Note that this is an incomplete list and that the key code may vary according to your physical keyboard, keyboard driver and operational system. 
