@@ -3,6 +3,9 @@ var exec = require('child_process').exec;
 module.exports = function() {
     var parent = this;
 
+    /**
+     * Keyboard layout mapping. This mapping table can be set with setKeyboardLayout().
+     */
     var keyboardLayout = {
         '+': 'add',
         '-': 'subtract',
@@ -73,7 +76,9 @@ module.exports = function() {
         'É': '@192 E',
         'Í': '@192 I',
         'Ó': '@192 O',
-        'Ú': '@192 U'
+        'Ú': '@192 U',
+        'ç': '@192 c',
+        'Ç': '@192 C'
     };
 
     /**
@@ -146,6 +151,6 @@ module.exports = function() {
 };
 
 //a = new module.exports();
-//a.sendText('Fernando+- &*@`\\/{}^[]:;,$=€!()#.\'\"_|?`~ãẽĩõũÃẼĨÕŨâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙáéíóúÁÉÍÓÚ');
+//a.sendText('Fernando+- &*@`\\/{}^[]:;,$=€!()#.\'\"_|?`~ãẽĩõũÃẼĨÕŨâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙáéíóúÁÉÍÓÚçÇ');
 
 
