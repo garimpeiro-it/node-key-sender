@@ -112,7 +112,3 @@ module.exports = function() {
         return keyboardLayout;
     };
 };
-
-//a = new module.exports();
-//a.sendText('Fernando+- &*@\\/{}[]:;,$=€!()#.\'\"`^~"_|?`~ãẽĩõũÃẼĨÕŨâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙáéíóúÁÉÍÓÚçÇäëïöüÄËÏÖÜ€');
-
