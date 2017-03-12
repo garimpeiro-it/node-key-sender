@@ -1,7 +1,8 @@
 var exec = require('child_process').exec;
+var path = require("path");
 
 module.exports = function() {
-    var parent = this;
+    var module = {};
 
     /**
      * Keyboard layout mapping. This mapping table can be set with setKeyboardLayout().
@@ -44,42 +45,42 @@ module.exports = function() {
      * A key code is a numeric value starting with @ or a textual. For example, there are two key codes for letter 'A'.
      * The numeric is "@65" and the textual is "A".
      */
-    this.sendKey = function(keyCode) {
-        parent.execute([keyCode]);
+    module.sendKey = function(keyCode) {
+        module.execute([keyCode]);
     };
 
-    this.sendKeys = function(arrKeyCodes) {
-        parent.execute(arrKeyCodes);
+    module.sendKeys = function(arrKeyCodes) {
+        module.execute(arrKeyCodes);
     };
 
-    this.sendLetter = function(letter) {
-        parent.sendKey(parent.getKeyCode(letter));
+    module.sendLetter = function(letter) {
+        module.sendKey(module.getKeyCode(letter));
     };
 
-    this.sendLetters = function(arrLetters) {
+    module.sendLetters = function(arrLetters) {
         var arrKeyCodes = [];
 
         for (var i = 0; i < arrLetters.length; i++) {
-            arrKeyCodes.push(parent.getKeyCode(arrLetters[i]));
+            arrKeyCodes.push(module.getKeyCode(arrLetters[i]));
         }
 
-        parent.sendKey(arrKeyCodes);
+        module.sendKey(arrKeyCodes);
     };
 
-    this.sendText = function(text) {
+    module.sendText = function(text) {
         var keyCodes = [];
 
         for (var i = 0, len = text.length; i < len; i++) {
             var currentKey = text[i];
-            var keyCode = parent.getKeyCode(currentKey);
+            var keyCode = module.getKeyCode(currentKey);
 
             keyCodes.push(keyCode);
         }
 
-        parent.execute(keyCodes);
+        module.execute(keyCodes);
     };
 
-    this.getKeyCode = function(letter) {
+    module.getKeyCode = function(letter) {
         var keyCode = letter;
 
         if (typeof keyboardLayout[letter] !== 'undefined') {
@@ -89,26 +90,30 @@ module.exports = function() {
         return keyCode;
     };
 
-    this.sendCombination = function(arrKeyCodes) {
-        parent.execute([arrKeyCodes.join('-')]);
+    module.sendCombination = function(arrKeyCodes) {
+        module.execute([arrKeyCodes.join('-')]);
     };
 
-    this.execute = function(arrParams) {
-        var command = 'java -jar jar/key-sender.jar ' + arrParams.join(' ');
+    module.execute = function(arrParams) {
+        var jarPath = path.join(__dirname, 'jar', 'key-sender.jar');
+
+        var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ');
         console.log('Sending: ' + command);
 
         exec(command);
     };
 
-    this.setKeyboardLayout = function(newKeyMap) {
+    module.setKeyboardLayout = function(newKeyMap) {
         keyboardLayout = newKeyMap;
     };
 
-    this.aggregateKeyboardLayout = function(arrKeyMap) {
+    module.aggregateKeyboardLayout = function(arrKeyMap) {
         keyboardLayout = Object.assign(keyboardLayout, arrKeyMap)
     };
 
-    this.getKeyboardLayout = function() {
+    module.getKeyboardLayout = function() {
         return keyboardLayout;
     };
+
+    return module;
 };
