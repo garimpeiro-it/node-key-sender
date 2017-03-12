@@ -42,17 +42,17 @@ Note that key codes may vary according to your running physical keyboard model, 
 
 Sending one key:
 
-    var ks = require('key-sender');
+    var ks = require('node-key-sender')();
     ks.sendKey('a');
 
 Send multiple keys one after the other:
 
-    var ks = require('key-sender');
+    var ks = require('node-key-sender')();
     ks.sendKeys(['a', 'b', 'c']);
 
 Send combination (pressed at the same time):
 
-    var ks = require('key-sender');
+    var ks = require('node-key-sender')();
     ks.sendCombination(['control', 'shift', 'v']);
 
 Mapping accents:
@@ -112,7 +112,7 @@ Mapping accents:
         'Ü': 'shift-@54 O'
     };
     
-    var ks = require('key-sender');
+    var ks = require('node-key-sender')();
     ks.aggregateKeyboardLayout(accentsMap);
     ks.sendText("Héllõ Wíth Áçcents");
     
