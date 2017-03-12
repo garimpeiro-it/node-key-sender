@@ -46,15 +46,15 @@ module.exports = function() {
      * The numeric is "@65" and the textual is "A".
      */
     module.sendKey = function(keyCode) {
-        module.execute([keyCode]);
+        return module.execute([keyCode]);
     };
 
     module.sendKeys = function(arrKeyCodes) {
-        module.execute(arrKeyCodes);
+        return module.execute(arrKeyCodes);
     };
 
     module.sendLetter = function(letter) {
-        module.sendKey(module.getKeyCode(letter));
+        return module.sendKey(module.getKeyCode(letter));
     };
 
     module.sendLetters = function(arrLetters) {
@@ -64,7 +64,7 @@ module.exports = function() {
             arrKeyCodes.push(module.getKeyCode(arrLetters[i]));
         }
 
-        module.sendKey(arrKeyCodes);
+        return module.sendKey(arrKeyCodes);
     };
 
     module.sendText = function(text) {
@@ -77,7 +77,7 @@ module.exports = function() {
             keyCodes.push(keyCode);
         }
 
-        module.execute(keyCodes);
+        return module.execute(keyCodes);
     };
 
     module.getKeyCode = function(letter) {
@@ -91,16 +91,24 @@ module.exports = function() {
     };
 
     module.sendCombination = function(arrKeyCodes) {
-        module.execute([arrKeyCodes.join('-')]);
+        return module.execute([arrKeyCodes.join('-')]);
     };
 
     module.execute = function(arrParams) {
-        var jarPath = path.join(__dirname, 'jar', 'key-sender.jar');
+        return new Promise(function(resolve, reject) {
+            var jarPath = path.join(__dirname, 'jar', 'key-sender.jar');
 
-        var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ');
-        console.log('Sending: ' + command);
+            var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ');
+            console.log('Sending: ' + command);
 
-        exec(command);
+            return exec(command, {}, function(error, stdout, stderr) {
+                if (error == null) {
+                    resolve(stdout, stderr);
+                } else {
+                    reject(error, stdout, stderr);
+                }
+            });
+        });
     };
 
     module.setKeyboardLayout = function(newKeyMap) {
