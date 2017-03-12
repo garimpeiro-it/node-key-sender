@@ -16,6 +16,14 @@ It uses a jar file (Java), so Java Run Time is required on the operational syste
 - Multi platform (it will work in all operation systems that Java can run);
 - It will send the key to the current focused application in the operational system.
 
+# Installation
+
+Install it using npm:
+
+    npm install --save-dev node-key-sender
+
+The command above will install and add the lib into your "package.json" file.
+
 # How it works
 
 Each key in your keyboard is mapped with a key code. Although a physical keyboard key may have printed above its surface more than one key (for example ':' and ';'), both generate the same key code. So, do not confuse key codes with ASCII or UNICODE values, they are different things.
