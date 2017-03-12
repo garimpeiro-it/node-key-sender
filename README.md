@@ -28,6 +28,85 @@ While you can send the key codes as numbers, the lib also have labels mapped for
 
 It is possible to change this mapping to convert accents automatically (if you are using a keyboard that supports it). Later in this doc I show how to do that.
 
+# Usage
+
+Sending one key:
+
+    var ks = require('key-sender');
+    ks.sendKey('a');
+
+Send multiple keys one after the other:
+
+    var ks = require('key-sender');
+    ks.sendKeys(['a', 'b', 'c']);
+
+Send combination (pressed at the same time):
+
+    var ks = require('key-sender');
+    ks.sendCombination('control', 'v');
+
+Mapping accents:
+
+    var accentsMap = {
+        'ã': '@514 a',
+        'ẽ': '@514 e',
+        'ĩ': '@514 i',
+        'õ': '@514 o',
+        'ũ': '@514 u',
+        'Ã': '@514 A',
+        'Ẽ': '@514 E',
+        'Ĩ': '@514 I',
+        'Õ': '@514 O',
+        'Ũ': '@514 U',
+        'â': 'shift-@514 a',
+        'ê': 'shift-@514 e',
+        'î': 'shift-@514 i',
+        'ô': 'shift-@514 o',
+        'û': 'shift-@514 u',
+        'Â': 'shift-@514 A',
+        'Ê': 'shift-@514 E',
+        'Î': 'shift-@514 I',
+        'Ô': 'shift-@514 O',
+        'Û': 'shift-@514 U',
+        'à': 'shift-@192 a',
+        'è': 'shift-@192 e',
+        'ì': 'shift-@192 i',
+        'ò': 'shift-@192 o',
+        'ù': 'shift-@192 u',
+        'À': 'shift-@192 A',
+        'È': 'shift-@192 E',
+        'Ì': 'shift-@192 I',
+        'Ò': 'shift-@192 O',
+        'Ù': 'shift-@192 U',
+        'á': '@192 a',
+        'é': '@192 e',
+        'í': '@192 i',
+        'ó': '@192 o',
+        'ú': '@192 u',
+        'Á': '@192 A',
+        'É': '@192 E',
+        'Í': '@192 I',
+        'Ó': '@192 O',
+        'Ú': '@192 U',
+        'ç': '@192 c',
+        'Ç': '@192 C',
+        'ä': 'shift-@54 a',
+        'ë': 'shift-@54 e',
+        'ï': 'shift-@54 i',
+        'ö': 'shift-@54 o',
+        'ü': 'shift-@54 u',
+        'Ä': 'shift-@54 A',
+        'Ë': 'shift-@54 E',
+        'Ï': 'shift-@54 I',
+        'Ö': 'shift-@54 O',
+        'Ü': 'shift-@54 O'
+    };
+    
+    var ks = require('key-sender');
+    ks.aggregateKeyboardLayout(accentsMap);
+    ks.sendText("Héllõ Wíth Áçcents");
+    
+
 # List of key codes
 
 The key codes can all be seen in the Java [java.awt.event.KeyEvent](https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html) class documentation. The key codes are the constants starting with "VK_". To use it with this lib, just take out these three letters and you can use the rest of the value. For example, VK_SHIFT you use "shift". VK_A you use 'a'. Or you can use the contant numerical value starting with "@". So "@16" for VK_SHIFT and "@65" for VK_A.
