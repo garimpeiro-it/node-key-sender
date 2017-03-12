@@ -43,7 +43,7 @@ Send multiple keys one after the other:
 Send combination (pressed at the same time):
 
     var ks = require('key-sender');
-    ks.sendCombination('control', 'v');
+    ks.sendCombination(['control', 'shift', 'v']);
 
 Mapping accents:
 
