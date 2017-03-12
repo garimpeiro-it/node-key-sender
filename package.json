@@ -1,6 +1,6 @@
 {
   "name": "node-key-sender",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lib to send keystrokes to the operation system.",
   "main": "key-sender.js",
   "scripts": {
