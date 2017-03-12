@@ -14,17 +14,19 @@ module.exports = function() {
         '*': 'shift-asterisk',
         '@': 'shift-at',
         '`': 'shift-back_quote space',
+        '~': '@514 space',
+        '^': 'shift-circumflex space',
         '\\': 'back_slash',
         '/': 'slash',
         '{': 'shift-braceleft',
         '}': 'shift-braceright',
-        '^': 'shift-circumflex space',
         '[': 'open_bracket',
         ']': 'close_bracket',
         ':': 'shift-colon',
         ';': 'semicolon',
         ',': 'comma',
         '$': 'shift-dollar',
+        '€': 'alt_gr-euro_sign',
         '=': 'equals',
         '!': 'shift-exclamation_mark',
         '(': 'shift-left_parenthesis',
@@ -36,7 +38,6 @@ module.exports = function() {
         '_': 'shift-underscore',
         '|': 'shift-@92',
         '?': 'shift-@47',
-        '~': '@514 space',
         'ã': '@514 a',
         'ẽ': '@514 e',
         'ĩ': '@514 i',
@@ -78,12 +79,22 @@ module.exports = function() {
         'Ó': '@192 O',
         'Ú': '@192 U',
         'ç': '@192 c',
-        'Ç': '@192 C'
+        'Ç': '@192 C',
+        'ä': 'shift-@54 a',
+        'ë': 'shift-@54 e',
+        'ï': 'shift-@54 i',
+        'ö': 'shift-@54 o',
+        'ü': 'shift-@54 u',
+        'Ä': 'shift-@54 A',
+        'Ë': 'shift-@54 E',
+        'Ï': 'shift-@54 I',
+        'Ö': 'shift-@54 O',
+        'Ü': 'shift-@54 O'
     };
 
     /**
      * A key code is a numeric value starting with @ or a textual. For example, there are two key codes for letter 'A'.
-     * The numeric is "@65" and textual is "A".
+     * The numeric is "@65" and the textual is "A".
      */
     this.sendKey = function(keyCode) {
         parent.execute([keyCode]);
@@ -151,6 +162,6 @@ module.exports = function() {
 };
 
 //a = new module.exports();
-//a.sendText('Fernando+- &*@`\\/{}^[]:;,$=€!()#.\'\"_|?`~ãẽĩõũÃẼĨÕŨâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙáéíóúÁÉÍÓÚçÇ');
+//a.sendText('Fernando+- &*@\\/{}[]:;,$=€!()#.\'\"`^~"_|?`~ãẽĩõũÃẼĨÕŨâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙáéíóúÁÉÍÓÚçÇäëïöüÄËÏÖÜ€');
 
 
