@@ -28,6 +28,8 @@ While you can send the key codes as numbers, the lib also have labels mapped for
 
 It is possible to change this mapping to convert accents automatically (if you are using a keyboard that supports it). Later in this doc I show how to do that.
 
+Note that key codes may vary according to your running physical keyboard model, keyboard driver and operational system.
+
 # Usage
 
 Sending one key:
@@ -109,9 +111,9 @@ Mapping accents:
 
 # List of key codes
 
-The key codes can all be seen in the Java [java.awt.event.KeyEvent](https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html) class documentation. The key codes are the constants starting with "VK_". To use it with this lib, just take out these three letters and you can use the rest of the value. For example, VK_SHIFT you use "shift". VK_A you use 'a'. Or you can use the contant numerical value starting with "@". So "@16" for VK_SHIFT and "@65" for VK_A.
+We recommend you search for key codes in the Java [java.awt.event.KeyEvent](https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html) class doc. The key codes are the constants starting with "VK_". To use it with this lib, just take out these three letters and you can use the rest of the constant name. For example, VK_SHIFT constant you use "shift". VK_A constant you use 'a'. The constant numerical value can also be used with an "@" in the beginning. So "@16" for VK_SHIFT and "@65" for VK_A.
 
-You also can use this website to get an idea of what key code is bound to each key: https://www.w3.org/2002/09/tests/keys.html.
+Use this website to get an idea of what key code is bound to each key of your current keyboard: https://www.w3.org/2002/09/tests/keys.html.
 
 Below, the list of key codes:
 
