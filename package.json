@@ -21,6 +21,9 @@
     "java",
     "jar"
   ],
+  "bugs": {
+    "email": "garimpeiroit@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {}
