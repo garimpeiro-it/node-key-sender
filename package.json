@@ -1,6 +1,6 @@
 {
   "name": "node-key-sender",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "NodeJs lib to send keyboard input to the operational system.",
   "main": "key-sender.js",
   "scripts": {
@@ -8,7 +8,19 @@
   },
   "repository": "git@bitbucket.org:garimpeiroit/mobile-nfce-desktop.git",
   "author": "Garimpeiro",
-  "keywords": ["nodejs", "key", "keyboard", "input", "send", "keystroke", "os", "operational", "system", "java", "jar"],
+  "keywords": [
+    "nodejs",
+    "key",
+    "keyboard",
+    "input",
+    "send",
+    "keystroke",
+    "os",
+    "operational",
+    "system",
+    "java",
+    "jar"
+  ],
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {}
