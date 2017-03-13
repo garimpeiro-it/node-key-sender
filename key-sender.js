@@ -111,6 +111,10 @@ module.exports = function() {
         });
     };
 
+    module.cleanKeyboardLayout = function() {
+        keyboardLayout = {};
+    };
+
     module.setKeyboardLayout = function(newKeyMap) {
         keyboardLayout = newKeyMap;
     };
