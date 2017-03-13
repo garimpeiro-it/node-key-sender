@@ -13,6 +13,7 @@ It uses a jar file (Java), so Java Run Time is required on the operational syste
 - Delay between keys;
 - Delay for each pressed key or each combination;
 - Possibility to map key codes;
+- Case correction for text
 - Multi platform (it will work in all operation systems that Java can run);
 - It will send the key to the current focused application in the operational system.
 
@@ -42,17 +43,17 @@ Note that key codes may vary according to your running physical keyboard model, 
 
 Sending one key:
 
-    var ks = require('node-key-sender')();
+    var ks = require('node-key-sender');
     ks.sendKey('a');
 
 Send multiple keys one after the other:
 
-    var ks = require('node-key-sender')();
+    var ks = require('node-key-sender');
     ks.sendKeys(['a', 'b', 'c']);
 
 Send combination (pressed at the same time):
 
-    var ks = require('node-key-sender')();
+    var ks = require('node-key-sender');
     ks.sendCombination(['control', 'shift', 'v']);
 
 Mapping accents:
@@ -112,10 +113,167 @@ Mapping accents:
         'Ü': 'shift-@54 O'
     };
     
-    var ks = require('node-key-sender')();
+    var ks = require('node-key-sender');
     ks.aggregateKeyboardLayout(accentsMap);
     ks.sendText("Héllõ Wíth Áçcents");
+
+Sending batch:
+
+    var ks = require('node-key-sender');
+
+    ks.startBatch()
+        .batchTypeKey('N')
+        .batchTypeKey('o')
+        .batchTypeKey('d')
+        .batchTypeKey('e')
+        .batchTypeKeys(['N', 'o', 'd', 'e'])
+        .batchTypeText('Node')
+        .batchTypeKey('N', 1000)
+        .batchTypeKey('o', 1000)
+        .batchTypeKey('d', 1000)
+        .batchTypeKey('e', 1000)
+        .sendBatch();
+
+Setting global press delay (in milliseconds):
+
+    ks.setOption('globalDelayPressMillisec', 1000);
     
+Setting global delay between keys (in milliseconds):
+
+    ks.setOption('globalDelayBetweenMillisec', 1000);
+    
+Setting start delay (in milliseconds):
+
+    ks.setOption('startDelayMillisec', 1000);
+    
+Turning off case correction:
+
+    ks.setOption('caseCorrection', false);
+    
+# List of methods
+
+## Economic methods
+
+Use this methods if you want to send just a small amount of keys. Note that the jar file is called each time one of these methods are called:  
+
+**sendKey(keyCode: string): Promise**
+
+Sends one key code.
+
+**sendKeys(arrKeyCodes: array): Promise**
+
+Sends multiple key codes.
+
+**sendLetter(letter: char): Promise**
+
+Sends a letter. A letter will be automatically converted to key code according to the keyboard layout configuration. You may set this configuration with `cleanKeyboardLayout`, `setKeyboardLayout` or `aggregateKeyboardLayout`.
+
+**sendText(text: string): Promise**
+
+Sends a text. A text will have its letters automatically converted to key codes according to the keyboard layout configuration. You may set this configuration with `cleanKeyboardLayout`, `setKeyboardLayout` or `aggregateKeyboardLayout`.
+
+**sendCombination(arrKeyCodes: array): Promise**
+
+Sends multiple key codes pressed together.
+
+## Batch methods
+
+Use this methods to send a large amount of keys. The jar file is executed each time you call `sendBatch`. You should start with `startBatch` and end with `sendBatch`:
+ 
+**startBatch()**
+ 
+Starts a batch.
+
+**sendBatch(): Promise**
+
+Sends the batch.
+
+**batchTypeKey(keyCode: string, waitMillisec: int, batchEvent: int)**
+
+Sends a key code. You may pass a delay it will wait until it presses the next key and also the type of event. Type of event is `ks.BATCH_EVENT_KEY_PRESS`, `ks.BATCH_EVENT_KEY_UP` and `ks.BATCH_EVENT_KEY_DOWN`.
+
+**batchTypeKeys(arrKeyCodes: array)**
+
+Sends a list of key codes, pressed one after the other.
+
+**batchTypeCombination(arrKeys: array, waitMillisec: int, batchEvent: int)**
+
+Sends a combination - list of key codes that will be pressed together. You may pass a delay it will wait until it presses the next key and also the type of event. Type of event is `ks.BATCH_EVENT_KEY_PRESS`, `ks.BATCH_EVENT_KEY_UP` and `ks.BATCH_EVENT_KEY_DOWN`.
+
+**batchTypeText(text: string)**
+
+Sends a text. A text will have its letters automatically converted to key codes according to the keyboard layout configuration. You may set this configuration with `cleanKeyboardLayout`, `setKeyboardLayout` or `aggregateKeyboardLayout`.
+
+
+## Keyboard layout methods
+
+Keyboard layout methods affects translation of letter to key code. They affect `sendLetter`, `sendText`, `batchTypeText` and `getKeyCode` methods. 
+
+**cleanKeyboardLayout(): void**
+
+Resets the keyboard layout configuration.
+
+**setKeyboardLayout(newKeyMap: object): void**
+
+Sets a new keyboard layout. For example:
+
+    var keyboardLayout = {
+        'ç': '@192 c',
+        'Ç': '@192 C'
+    };
+        
+    var ks = require('node-key-sender');
+    ks.aggregateKeyboardLayout(keyboardLayout);
+    ks.sendText("Ç");
+
+This keyboard layout converts letter 'Ç' to key codes '@192' and 'C'.
+ 
+**aggregateKeyboardLayout(objKeyMap: object): void**
+
+Appends the new mapping to the current mapping.
+
+**getKeyboardLayout(): object**
+
+Returns the current keyboard layout.
+
+
+## Other methods
+
+**getKeyCode(letter: string)**
+
+Gets the key code of a letter. A letter will be automatically converted to key code according to the keyboard layout configuration. You may set this configuration with `cleanKeyboardLayout`, `setKeyboardLayout` or `aggregateKeyboardLayout`.
+
+**setOption(optionName: string, optionValue: string)**
+
+Options that are passed as arguments to the jar. This is the list of valid options names:
+
+- startDelayMillisec (int): Delay in milliseconds it will wait to press the first key.
+- globalDelayPressMillisec (int): Global delay in milliseconds it will keep the key pressed.
+- globalDelayBetweenMillisec (int): Global delay in milliseconds it will wait until it presses the next key.
+- caseCorrection (boolean): When it is on, if you send key 'A' (in upper case), the jar will automatically hold Shift, so resulting key is 'A'.
+- extra (string): Use may use it to send raw arguments to the jar file. Example: ' -c 1 -d 1000'.
+
+**execute(arrParams: array): Promise**
+
+Use this method if you want to directly call the jar file.
+
+## Promises
+
+Some methods of this lib returns a promise:
+
+    ks.sendKey('a').then(
+        function(stdout, stderr) {
+            // For success
+        },        
+        function(error, stdout, stderr) {
+            // For error
+        }
+    );
+
+The promise is resolved or rejected right after the jar finishes its execution.  
+
+List of methods that returns this promise: `sendCombination`, `sendKey`, `sendKeys`, `sendLetter`, `sendText`, `execute`, `sendBatch`.
+
 
 # List of key codes
 

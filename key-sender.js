@@ -159,8 +159,8 @@ module.exports = function() {
         keyboardLayout = newKeyMap;
     };
 
-    module.aggregateKeyboardLayout = function(arrKeyMap) {
-        keyboardLayout = Object.assign(keyboardLayout, arrKeyMap)
+    module.aggregateKeyboardLayout = function(objKeyMap) {
+        keyboardLayout = Object.assign(keyboardLayout, objKeyMap)
     };
 
     module.getKeyboardLayout = function() {
@@ -273,7 +273,7 @@ module.exports = function() {
             arrArguments.push(argument);
         }
 
-        module.execute(arrArguments);
+        return module.execute(arrArguments);
     };
 
     module.setOption = function(optionName, optionValue) {
