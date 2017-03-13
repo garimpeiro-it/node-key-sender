@@ -4,6 +4,20 @@ var path = require("path");
 module.exports = function() {
     var module = {};
 
+    var batch = [];
+
+    var options = {
+        "startDelayMillisec": null,
+        "caseCorrection": null,
+        "globalDelayPressMillisec": null,
+        "globalDelayBetweenMillisec": null,
+        "extra": null
+    };
+
+    module.BATCH_EVENT_KEY_PRESS = 1;
+    module.BATCH_EVENT_KEY_UP = 2;
+    module.BATCH_EVENT_KEY_DOWN = 3;
+
     /**
      * Keyboard layout mapping. This mapping table can be set with setKeyboardLayout().
      */
@@ -98,7 +112,7 @@ module.exports = function() {
         return new Promise(function(resolve, reject) {
             var jarPath = path.join(__dirname, 'jar', 'key-sender.jar');
 
-            var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ');
+            var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ') + module.getCommandLineOptions();
             console.log('Sending: ' + command);
 
             return exec(command, {}, function(error, stdout, stderr) {
@@ -109,6 +123,32 @@ module.exports = function() {
                 }
             });
         });
+    };
+
+    module.getCommandLineOptions = function() {
+        var arguments = '';
+
+        if (typeof options.startDelayMillisec !== 'undefined' && options.startDelayMillisec != null) {
+            arguments = arguments + ' -sd ' + options.startDelayMillisec;
+        }
+
+        if (typeof options.caseCorrection !== 'undefined' && options.caseCorrection != null) {
+            arguments = arguments + ' -c ' + (options.caseCorrection ? '1' : '0');
+        }
+
+        if (typeof options.globalDelayPressMillisec !== 'undefined' && options.globalDelayPressMillisec != null) {
+            arguments = arguments + ' -pd ' + options.globalDelayPressMillisec;
+        }
+
+        if (typeof options.globalDelayBetweenMillisec !== 'undefined' && options.globalDelayBetweenMillisec != null) {
+            arguments = arguments + ' -d ' + options.globalDelayBetweenMillisec;
+        }
+
+        if (typeof options.extra !== 'undefined' && options.extra != null) {
+            arguments = arguments + ' ' + options.extra;
+        }
+
+        return arguments;
     };
 
     module.cleanKeyboardLayout = function() {
@@ -127,5 +167,124 @@ module.exports = function() {
         return keyboardLayout;
     };
 
+    module.startBatch = function() {
+        batch = [];
+        return module;
+    };
+
+    module.batchTypeKey = function(keyCode, waitMillisec, batchEvent) {
+        if (typeof waitMillisec == 'undefined') {
+            waitMillisec = 0;
+        }
+
+        if (typeof batchEvent == 'undefined') {
+            batchEvent = module.BATCH_EVENT_KEY_PRESS;
+        }
+
+        var param = {
+            "combination": null,
+            "keyCode": keyCode,
+            "wait": waitMillisec,
+            "event": batchEvent
+        };
+
+        batch.push(param);
+
+        return this;
+    };
+
+    module.batchTypeCombination = function(arrKeys, waitMillisec, batchEvent) {
+        if (typeof waitMillisec == 'undefined') {
+            waitMillisec = 0;
+        }
+
+        if (typeof batchEvent == 'undefined') {
+            batchEvent = module.BATCH_EVENT_KEY_PRESS;
+        }
+
+        var param = {
+            "combination": arrKeys,
+            "keyCode": null,
+            "wait": waitMillisec,
+            "event": batchEvent
+        };
+
+        batch.push(param);
+
+        return this;
+    };
+
+    module.batchTypeKeys = function(arrKeyCodes) {
+        for (var i = 0; i < arrKeyCodes.length; i++) {
+            var param = {
+                "combination": null,
+                "keyCode": arrKeyCodes[i],
+                "wait": 0,
+                "event": module.BATCH_EVENT_KEY_PRESS
+            };
+
+            batch.push(param);
+        }
+
+        return this;
+    };
+
+    module.batchTypeText = function(text) {
+        var arrKeyCodes = [];
+
+        for (var i = 0, len = text.length; i < len; i++) {
+            var currentKey = text[i];
+            var keyCode = module.getKeyCode(currentKey);
+
+            arrKeyCodes.push(keyCode);
+        }
+
+        module.batchTypeKeys(arrKeyCodes);
+
+        return this;
+    };
+
+    module.sendBatch = function() {
+        var arrArguments = [];
+
+        for (var i = 0; i < batch.length; i++) {
+            var param = batch[i];
+            var isCombination = param.combination != null;
+            var argument = '';
+
+            if (isCombination) {
+                argument = param.combination.join('-');
+            } else {
+                argument = param.keyCode;
+            }
+
+            if (param.wait > 0) {
+                argument = argument + '.w' + param.wait;
+            }
+
+            if (param.event == module.BATCH_EVENT_KEY_UP) {
+                argument = argument + '.up';
+            }
+
+            if (param.event == module.BATCH_EVENT_KEY_DOWN) {
+                argument = argument + '.down';
+            }
+
+            arrArguments.push(argument);
+        }
+
+        module.execute(arrArguments);
+    };
+
+    module.setOption = function(optionName, optionValue) {
+        options[optionName] = optionValue;
+
+        return module;
+    };
+
+    module.getOptions = function() {
+        return options;
+    };
+
     return module;
-};
+}();
