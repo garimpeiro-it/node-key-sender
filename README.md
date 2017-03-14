@@ -4,6 +4,8 @@ Use this lib to send keyboard events to the operational system.
 
 It uses a jar file (Java), so Java Run Time is required on the operational system you are running your node project.
 
+**Bugs and issues**: Please, post any issues to https://github.com/garimpeiro-it/node-key-sender/issues. 
+
 # Main features
 
 - Send raw keyboard key codes to the operational system;
@@ -13,7 +15,7 @@ It uses a jar file (Java), so Java Run Time is required on the operational syste
 - Delay between keys;
 - Delay for each pressed key or each combination;
 - Possibility to map key codes;
-- Case correction for text
+- Case correction for text;
 - Multi platform (it will work in all operation systems that Java can run);
 - It will send the key to the current focused application in the operational system.
 
