@@ -112,7 +112,7 @@ module.exports = function() {
         return new Promise(function(resolve, reject) {
             var jarPath = path.join(__dirname, 'jar', 'key-sender.jar');
 
-            var command = 'java -jar ' + jarPath + ' ' + arrParams.join(' ') + module.getCommandLineOptions();
+            var command = 'java -jar \'' + jarPath + '\' ' + arrParams.join(' ') + module.getCommandLineOptions();
             console.log('Sending: ' + command);
 
             return exec(command, {}, function(error, stdout, stderr) {
