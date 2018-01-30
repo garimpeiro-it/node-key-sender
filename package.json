@@ -1,6 +1,6 @@
 {
   "name": "node-key-sender",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "NodeJs lib to send keyboard input to the operational system.",
   "main": "key-sender.js",
   "scripts": {
