@@ -2,7 +2,7 @@
 
 Use this lib to send keyboard events to the operational system. 
 
-It uses a jar file (Java), so Java Run Time is required on the operational system you are running your node project.
+It uses a jar file (Java), so Java Run Time is required on the operational system you are running your node project (version 8 or above).
 
 **Bugs and issues**: Please, post any issues to https://github.com/garimpeiro-it/node-key-sender/issues. 
 
@@ -17,7 +17,8 @@ It uses a jar file (Java), so Java Run Time is required on the operational syste
 - Possibility to map key codes;
 - Case correction for text;
 - Multi platform (it will work in all operation systems that Java can run);
-- It will send the key to the current focused application in the operational system.
+- It will send the key to the current focused application in the operational system;
+- It is sensitive to the operational system, keyboard driver and phisical keyboard installed on the running platform.
 
 # Installation
 
@@ -279,7 +280,7 @@ List of methods that returns this promise: `sendCombination`, `sendKey`, `sendKe
 
 # List of key codes
 
-We recommend you search for key codes in the Java [java.awt.event.KeyEvent](https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html) class doc. The key codes are the constants starting with "VK_". To use it with this lib, just take out these three letters and you can use the rest of the constant name. For example, VK_SHIFT constant you use "shift". VK_A constant you use 'a'. The constant numerical value can also be used with an "@" in the beginning. So "@16" for VK_SHIFT and "@65" for VK_A.
+We recommend you search for key codes in the Java [java.awt.event.KeyEvent](https://docs.oracle.com/javase/7/docs/api/java/awt/event/KeyEvent.html) class doc. The key codes are the constants starting with "VK_". To use it with this lib, just take out these three letters and you can use the rest of the constant name in lowercase. For example, VK_SHIFT constant you use "shift". VK_A constant you use 'a'. The constant numerical value can also be used with an "@" in the beginning. So "@16" for VK_SHIFT and "@65" for VK_A.
 
 Use this website to get an idea of what key code is bound to each key of your current keyboard: https://www.w3.org/2002/09/tests/keys.html.
 
